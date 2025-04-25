@@ -14,11 +14,8 @@ export const Main = () => {
     }) 
 
     //Button on click event to add ingredient to list
-    function handleSubmit(e) {
-        e.preventDefault()
-        const formData= new FormData (e.target)
+    function addIngredient(formData) {
         const newIngredient = formData.get('ingredient')
-        e.target.reset(); //Clear input field after submission
         
         setIngredients(
             prevIngredients => [
@@ -26,23 +23,37 @@ export const Main = () => {
                 newIngredient // Add new item to the list. This will come from the form data
             ]
         )
-        console.log(ingredients)
+        
 
     }
 
     return (
         <main className="main-content">
-            <form onSubmit={handleSubmit} className="ingredient-form">
+            <form action={addIngredient} className="ingredient-form">
                 <input type="text" placeholder="Enter ingredient" aria-label="enter ingredient"
                 name="ingredient"></input>
                 <button>Add ingredient</button>
             </form>
-            <div className="ingredient-list-container">
-                <h2>Ingredients</h2>
-                <ul className="ingredient-list">
-                    {ingredientList}
-                </ul>
-            </div>
+
+            {/* Render div container if ingredient has been entered */}
+            {ingredients.length > 0 && (
+            <section className="ingredient-list-container">
+                <div className="ingredient-list-container">
+                    <h2>Ingredients on hand:</h2>
+                    <ul className="ingredient-list">
+                        {ingredientList}
+                    </ul>
+                </div>
+
+                <div className="get-recipe-container">
+                    <div>
+                        <h3>Ready for a recipe?</h3>
+                        <p>Generate a recipe from your list of  ingredients.</p>
+                    </div>
+                    <button>Get a recipe</button>
+                </div>
+            </section>
+            )}
         </main>
     )
 }
